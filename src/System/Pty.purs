@@ -1,11 +1,11 @@
 module System.Pty
-  ( PtyProcess, PTY, PtySpawnArgs, PtySpawnParams, spawn, write, onData, resize
+  ( PtyProcess, PTY, PtySpawnArgs, PtySpawnParams, spawn, write, onData, resize, destroy
   ) where
 
 import Prelude
 import Data.StrMap (StrMap)
 import Control.Monad.Eff (Eff, kind Effect)
-import Control.Monad.Eff.Uncurried (EffFn1, EffFn2, EffFn3, mkEffFn1, runEffFn2, runEffFn3)
+import Control.Monad.Eff.Uncurried (EffFn1, EffFn2, EffFn3, mkEffFn1, runEffFn1, runEffFn2, runEffFn3)
 
 
 
@@ -42,3 +42,8 @@ foreign import resizeImpl :: forall eff. EffFn2 (pty :: PTY | eff) PtyProcess {c
 
 resize :: forall eff. PtyProcess -> {cols :: Int, rows :: Int} -> Eff (pty :: PTY | eff) Unit
 resize = runEffFn2 resizeImpl
+
+foreign import destroyImpl :: forall eff. EffFn1 (pty :: PTY | eff) PtyProcess Unit
+
+destroy :: forall eff. PtyProcess -> Eff (pty :: PTY | eff) Unit
+destroy = runEffFn1 destroyImpl

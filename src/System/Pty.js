@@ -20,3 +20,6 @@ exports.resizeImpl = function resizeImpl (process, xs) {
   process.resize(xs.cols, xs.rows);
 };
 
+exports.destroyImpl = function destroyImpl (process) {
+  process.destroy();
+};
